@@ -1,6 +1,6 @@
-const fs = require('fs');
-const pdfjs = require('pdfjs-dist/legacy/build/pdf.js');
-const cyclists = require('../src/data/cyclists.json');
+import fs from 'fs';
+import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
+import cyclists from '../src/data/cyclists.json' with { type: 'json' };
 
 async function mapPages() {
   try {
@@ -22,12 +22,9 @@ async function mapPages() {
       const matches = cyclists.filter(c => textUpper.includes(c.name.toUpperCase()));
       
       if (matches.length > 0) {
-        // Save mapping by cyclist "number" (bib number) or "position"? 
-        // Let's use number
+        // Save mapping by cyclist "number" (bib number)
         mapping[matches[0].number] = i - 1; // 0-indexed for pdf-lib!
         console.log(`Page ${i} -> ${matches[0].name}`);
-      } else {
-        // console.log(`Page ${i} -> no match. Text snippet: ${text.substring(0, 100)}`);
       }
     }
     
